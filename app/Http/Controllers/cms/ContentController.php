@@ -17,6 +17,7 @@ class ContentController extends Controller
     {
         $this->contentRepository = $contentRepository;
         $this->sectionRepository = $sectionRepository;
+        $this->middleware('auth');
         
     }
 

@@ -15,6 +15,7 @@ class UploadController extends Controller
     {
         $this->uploadRepository = $uploadRepository;
         $this->sectionRepository = $sectionRepository;
+        $this->middleware('auth');
     }
 
     public function store($page, $section, Request $request){

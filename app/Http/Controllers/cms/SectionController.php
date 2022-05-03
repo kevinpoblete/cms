@@ -15,6 +15,7 @@ class SectionController extends Controller
     {
         $this->sectionRepository = $sectionRepository;
         $this->pageRepository = $pageRepository;
+        $this->middleware('auth');
         
     }
 

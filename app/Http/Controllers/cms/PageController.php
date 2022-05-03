@@ -17,7 +17,8 @@ class PageController extends Controller
     {
         $this->pageRepository = $pageRepository;
         $this->sectionRepository = $sectionRepository;    
-        $this->inputRepository = $inputRepository;    
+        $this->inputRepository = $inputRepository;
+        $this->middleware('auth');    
     }
     public function index(){
         $pages = $this->pageRepository->all();

@@ -12,6 +12,7 @@ class InputController extends Controller
     public function __construct(InputRepository $inputRepository)
     {
         $this->inputRepository = $inputRepository;
+        $this->middleware('auth');
     }
 
     public function index(){
