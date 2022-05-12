@@ -21,6 +21,7 @@ class UploadRepository{
     public function store($section, $request){
         $this->validate($request);
         
+        
         if($request->hasFile('img')){
             //Get filename with the extension
             $filenameWithExt = $request->file('img')->getClientOriginalName();

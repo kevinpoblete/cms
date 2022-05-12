@@ -11,13 +11,13 @@
                     @foreach ($pages as $page)
                         <div class="row mb-2">
                             <div class="col-md-9">
-                                    <a href="/pages/{{ $page->id }}">{{ $page->name }}</a>
+                                    <a href="{{ route('admin.pages.show', [$page->id]) }}">{{ $page->name }}</a>
                             </div>
                             <div class="col-md-1">
-                                <a href="/pages/{{ $page->id }}/edit" type="button" class="btn btn-warning">Edit</a>
+                                <a href="{{ route('admin.pages.edit', [$page->id]) }}" type="button" class="btn btn-warning">Edit</a>
                             </div>
                             <div class="col-md-1">
-                                <form action="/pages/{{ $page->id }}" method="POST">
+                                <form action="{{ route('admin.pages.destroy', [$page->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                     @endforeach
-                    <a href="/pages/create" type="button" class="btn btn-primary">Add Page</a>
+                    <a href="{{ route('admin.pages.create')}}" type="button" class="btn btn-primary">Add Page</a>
                 </div>
             </div>
         </div>

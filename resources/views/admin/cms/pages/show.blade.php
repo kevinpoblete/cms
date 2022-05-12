@@ -15,10 +15,10 @@
                                         <h1>{{ $section->name }}</h1>
                                 </div>
                                 <div class="col-md-1">
-                                    <a href="/pages/{{ $page->id }}/sections/{{ $section->id }}/edit" type="button" class="btn btn-warning">Edit</a>
+                                    <a href="{{ route('admin.pages.sections.edit', [$page->id, $section->id]) }}" type="button" class="btn btn-warning">Edit</a>
                                 </div>
                                 <div class="col-md-1">
-                                    <form action="/pages/{{ $page->id }}/sections/{{ $section->id }}" method="POST">
+                                    <form action="{{ route('admin.pages.sections.destroy', [$page->id, $section->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             @if ($section->contents->count() >= 1)
-                                <form action="/pages/{{ $page->id }}/sections/{{ $section->id }}/contents" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.pages.sections.contents.update', [$page->id, $section->id]) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PATCH')
                                     @foreach ($section->contents as $content)
@@ -85,7 +85,7 @@
                             
                             <div class="add-content border mt-4 p-2">
                                 <h5>Add Content</h5>
-                                <form action="/pages/{{ $page->id }}/sections/{{ $section->id }}/contents" method="POST">
+                                <form action="{{ route('admin.pages.sections.contents.store', [$page->id, $section->id]) }}" method="POST">
                                     @csrf
                                     <div class="form-row mb-2">
                                         <div class="col-2">
@@ -115,7 +115,7 @@
                             </div>
                             <div class="add-image border mt-4 p-2">
                                 <h5>Add Image</h5>
-                                <form action="/pages/{{ $page->id }}/sections/{{ $section->id }}/uploads" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.pages.sections.upload', [$page->id, $section->id]) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row">
                                     <div class="col-2">
@@ -141,7 +141,7 @@
                         </div>
                         
                     @endforeach
-                    <a href="/pages/{{ $page->id }}/sections/create" type="button" class="btn btn-primary">Add Section</a>
+                    <a href="{{ route('admin.pages.sections.create', [$page->id]) }}" type="button" class="btn btn-primary">Add Section</a>
                 </div>
             </div>
         </div>

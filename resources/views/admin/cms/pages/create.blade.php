@@ -8,7 +8,7 @@
                 <div class="card-header">Pages</div>
 
                 <div class="card-body">
-                    <form action="/pages" method="POST">
+                    <form action="{{ route('admin.pages.store') }}" method="POST">
                         @csrf
                         <div class="form-group row">
                           <label for="slug" class="col-sm-2 col-form-label">Slug:</label>

@@ -39,7 +39,7 @@ class PageController extends Controller
     public function store(Request $request){
         $page = $this->pageRepository->store($request);
         
-        return redirect('/pages/' . $page->id);
+        return redirect()->route('admin.pages.show', $page->id);
     }
 
     public function edit($page){
@@ -49,13 +49,13 @@ class PageController extends Controller
 
     public function update($page, Request $request){
          $this->pageRepository->update($page, $request);
-        return redirect('/pages/' . $page);
+        return redirect(route('admin.pages.') . $page);
     }
 
     public function destroy($page){
         
         $this->pageRepository->destroy($page);
-        return redirect('/pages');
+        return redirect()->route('admin.pages.index');
     }
 
     

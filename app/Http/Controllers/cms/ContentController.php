@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\cms;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContentRequest;
 use App\Repositories\cms\ContentRepository;
 use App\Repositories\cms\SectionRepository;
 use Illuminate\Http\Request;
@@ -21,24 +22,24 @@ class ContentController extends Controller
         
     }
 
-    public function store($page, $section, Request $request){
+    public function store($page, $section, ContentRequest $request){
         
-        
+        $data = $request->validated();
         $section = $this->sectionRepository->findByID($section);
         
-        $this->contentRepository->store($request, $section);
-        return redirect('/pages/' . $page);
+        $this->contentRepository->store($data, $section);
+        return redirect()->route('admin.pages.show', [$page]);
     }
 
-    public function update(Request $request){
+    public function update(Request $request, $page){
         $this->contentRepository->update($request);
-        return redirect()->back();
+        return redirect()->route('admin.pages.show', [$page]);
 
     }
 
     public function destroy($page, $section, $content){
         dd('tanga');
         $this->contentRepository->destroy($content);
-        return redirect('/pages/' . $page);
+        return redirect()->route('admin.pages.show', [$page]);
     }
 }

@@ -17,39 +17,67 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin/pages', 'HomeController@index')->name('home');
 
+Route::name('admin.')->prefix('admin')->middleware(['auth'])->group(function (){
 //input_types
 Route::get('/input', 'cms\InputController@index');
+//pages
+Route::name('pages.')->prefix('pages')->group(function (){
+    Route::get('/', 'cms\PageController@index')->name('index');
+    Route::get('/create', 'cms\PageController@create')->name('create');
+    Route::post('/', 'cms\PageController@store')->name('store');
+    Route::get('/{page}/edit', 'cms\PageController@edit')->name('edit');
+    Route::patch('/{page}', 'cms\PageController@update')->name('update');
+    Route::delete('/{page}', 'cms\PageController@destroy')->name('destroy');
+    Route::get('/{page}', 'cms\PageController@show')->name('show');
 
-//upload
-Route::post('/pages/{page}/sections/{section}/uploads', 'cms\UploadController@store');
+    Route::name('sections.')->prefix('{page}/sections')->group(function() {
+        //upload
+        Route::post('/{section}/uploads', 'cms\UploadController@store')->name('upload');
+
+        //sections
+        Route::get('/create', 'cms\SectionController@create')->name('create');
+        Route::post('/', 'cms\SectionController@store')->name('store');
+        Route::get('/{section}/edit', 'cms\SectionController@edit')->name('edit');
+        Route::patch('/{section}', 'cms\SectionController@update')->name('update');
+        Route::delete('/{section}', 'cms\SectionController@destroy')->name('destroy');
+        Route::get('/{section}', 'cms\SectionController@show')->name('show');
+
+            //content
+        Route::name('contents.')->prefix('{section}/contents')->group(function(){
+            Route::post('/', 'cms\ContentController@store')->name('store');
+            Route::patch('/', 'cms\ContentController@update')->name('update');
+            Route::delete('/{content}', 'cms\ContentController@destroy');
+        });
+        });
+
+
+
+});
+
+
 
 
 
 
 //content
-Route::post('/pages/{page}/sections/{section}/contents', 'cms\ContentController@store');
-Route::patch('/pages/{page}/sections/{section}/contents', 'cms\ContentController@update')->name('page.section');
-Route::delete('/pages/{page}/sections/{section}/contents/{content}', 'cms\ContentController@destroy');
+
 
 
 //section
-Route::get('/pages/{page}/sections/create', 'cms\SectionController@create');
-Route::post('/pages/{page}/sections', 'cms\SectionController@store');
-Route::get('/pages/{page}/sections/{section}/edit', 'cms\SectionController@edit');
-Route::patch('/pages/{page}/sections/{section}', 'cms\SectionController@update');
-Route::delete('/pages/{page}/sections/{section}', 'cms\SectionController@destroy');
-Route::get('/pages/{page}/sections/{section}', 'cms\SectionController@show');
+
 
 //page
-Route::get('/pages', 'cms\PageController@index')->name('page');
-Route::get('/pages/create', 'cms\PageController@create');
-Route::post('/pages', 'cms\PageController@store');
-Route::get('/pages/{page}/edit', 'cms\PageController@edit');
-Route::patch('/pages/{page}', 'cms\PageController@update');
-Route::delete('/pages/{page}', 'cms\PageController@destroy');
-Route::get('/pages/{page}', 'cms\PageController@show');
+
+
+});
+
+
+
+
+
+
 
 
 

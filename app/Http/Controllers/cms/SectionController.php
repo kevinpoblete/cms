@@ -34,7 +34,7 @@ class SectionController extends Controller
     public function store(Request $request, $page){
         $page = $this->pageRepository->findByID($page);
         $section = $this->sectionRepository->store($request, $page);
-        return redirect('/pages/' . $page->id );
+        return redirect()->route('admin.pages.show', [$page]);
     }
 
     public function edit($page, $section){
@@ -46,11 +46,11 @@ class SectionController extends Controller
 
     public function update(Request $request, $page, $section){
         $section = $this->sectionRepository->update($request, $section);
-        return redirect('/pages/' . $page . '/sections/' .$section);
+        return redirect()->route('admin.pages.show', [$page]);
     }
 
     public function destroy($page, $section){
         $this->sectionRepository->destroy($section);
-        return redirect('/pages/' . $page);
+        return redirect()->route('admin.pages.show', [$page]);
     }
 }
