@@ -14,16 +14,19 @@
                                 <div class="col-md-9">
                                         <h1>{{ $section->name }}</h1>
                                 </div>
-                                <div class="col-md-1">
-                                    <a href="{{ route('admin.pages.sections.edit', [$page->id, $section->id]) }}" type="button" class="btn btn-warning">Edit</a>
-                                </div>
-                                <div class="col-md-1">
-                                    <form action="{{ route('admin.pages.sections.destroy', [$page->id, $section->id]) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </div>
+                                @if (auth()->user()->role_id == 1)
+                                    <div class="col-md-1">
+                                        <a href="{{ route('admin.pages.sections.edit', [$page->id, $section->id]) }}" type="button" class="btn btn-warning">Edit</a>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <form action="{{ route('admin.pages.sections.destroy', [$page->id, $section->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>  
+                                @endif
+                                
                             </div>
                             @if ($section->contents->count() >= 1)
                                 <form action="{{ route('admin.pages.sections.contents.update', [$page->id, $section->id]) }}" method="POST" enctype="multipart/form-data">
@@ -82,66 +85,71 @@
                                     
                                 </form>  
                             @endif
-                            
-                            <div class="add-content border mt-4 p-2">
-                                <h5>Add Content</h5>
-                                <form action="{{ route('admin.pages.sections.contents.store', [$page->id, $section->id]) }}" method="POST">
+                            @if (auth()->user()->role_id == 1)
+                                <div class="add-content border mt-4 p-2">
+                                    <h5>Add Content</h5>
+                                    <form action="{{ route('admin.pages.sections.contents.store', [$page->id, $section->id]) }}" method="POST">
+                                        @csrf
+                                        <div class="form-row mb-2">
+                                            <div class="col-2">
+                                            <input type="text" name="label" class="form-control" placeholder="Label">
+                                            </div>
+                                            <div class="col-5">
+                                            <input type="text" name="content" class="form-control" placeholder="Content">
+                                            </div>
+                                            <div class="col-3">
+                                                <select id="input" name="input_id" class="form-control">
+                                                    @foreach ($inputs as $input)
+                                                        <option value="{{ $input->id }}">{{ $input->input_type }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="text" name="slug" class="form-control" placeholder="Slug">
+                                            </div>
+                                            <input type="hidden" name="order" value="{{ $section->contents->count() + 1  }}">
+                                            
+                                        </div>
+                                        <div class="d-flex flex-row-reverse">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </div>
+                                    
+                                    </form>
+                                </div>
+                                <div class="add-image border mt-4 p-2">
+                                    <h5>Add Image</h5>
+                                    <form action="{{ route('admin.pages.sections.upload', [$page->id, $section->id]) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="form-row mb-2">
+                                    <div class="form-row">
                                         <div class="col-2">
-                                          <input type="text" name="label" class="form-control" placeholder="Label">
-                                        </div>
-                                        <div class="col-5">
-                                          <input type="text" name="content" class="form-control" placeholder="Content">
-                                        </div>
-                                        <div class="col-3">
-                                            <select id="input" name="input_id" class="form-control">
-                                                @foreach ($inputs as $input)
-                                                    <option value="{{ $input->id }}">{{ $input->input_type }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" name="label" class="form-control" placeholder="Label">
                                         </div>
                                         <div class="col-2">
                                             <input type="text" name="slug" class="form-control" placeholder="Slug">
                                         </div>
-                                        <input type="hidden" name="order" value="{{ $section->contents->count() + 1  }}">
-                                        
-                                    </div>
-                                    <div class="d-flex flex-row-reverse">
-                                        <button type="submit" class="btn btn-primary">Add</button>
-                                    </div>
-                                
-                                </form>
-                            </div>
-                            <div class="add-image border mt-4 p-2">
-                                <h5>Add Image</h5>
-                                <form action="{{ route('admin.pages.sections.upload', [$page->id, $section->id]) }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-row">
-                                    <div class="col-2">
-                                        <input type="text" name="label" class="form-control" placeholder="Label">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="text" name="slug" class="form-control" placeholder="Slug">
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="img" id="inputGroupFile02">
-                                            <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                                        <div class="col-8">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="img" id="inputGroupFile02">
+                                                <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                                            </div>
+                                            
                                         </div>
-                                          
                                     </div>
+                                    <div class="d-flex flex-row-reverse mt-2">
+                                        <button type="submit" class="btn btn-primary">Add image</button>
+                                    </div>
+                                    </form>   
                                 </div>
-                                <div class="d-flex flex-row-reverse mt-2">
-                                    <button type="submit" class="btn btn-primary">Add image</button>
-                                </div>
-                                </form>   
-                            </div>
+                            @endif
+                            
                             
                         </div>
                         
                     @endforeach
-                    <a href="{{ route('admin.pages.sections.create', [$page->id]) }}" type="button" class="btn btn-primary">Add Section</a>
+                    @if (auth()->user()->role_id == 1)
+                        <a href="{{ route('admin.pages.sections.create', [$page->id]) }}" type="button" class="btn btn-primary">Add Section</a>    
+                    @endif
+                    
                 </div>
             </div>
         </div>

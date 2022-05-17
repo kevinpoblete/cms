@@ -25,6 +25,7 @@ class ContentController extends Controller
     public function store($page, $section, ContentRequest $request){
         
         $data = $request->validated();
+        
         $section = $this->sectionRepository->findByID($section);
         
         $this->contentRepository->store($data, $section);

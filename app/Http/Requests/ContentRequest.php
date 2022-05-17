@@ -29,7 +29,7 @@ class ContentRequest extends FormRequest
             'slug' => 'required',
             'input_id' => 'required|integer',
             'order' => 'required|integer',
-            'img' => 'required',
+            
         ];
     }
 }
