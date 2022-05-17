@@ -30,6 +30,7 @@ Route::name('pages.')->prefix('pages')->group(function (){
     Route::get('/{page}/edit', 'cms\PageController@edit')->name('edit');
     Route::patch('/{page}', 'cms\PageController@update')->name('update');
     Route::delete('/{page}', 'cms\PageController@destroy')->name('destroy');
+    
     Route::get('/{page}', 'cms\PageController@show')->name('show');
 
     Route::name('sections.')->prefix('{page}/sections')->group(function() {
