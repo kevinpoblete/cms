@@ -59,22 +59,6 @@ Route::name('pages.')->prefix('pages')->group(function (){
 
 
 });
-
-
-
-
-
-
-//content
-
-
-
-//section
-
-
-//page
-
-
 });
 
 
