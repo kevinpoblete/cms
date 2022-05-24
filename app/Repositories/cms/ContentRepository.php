@@ -30,7 +30,7 @@ class ContentRepository{
         return $section->contents()->create($data);
     }
 
-    public function update( $request){
+    public function update($request){
         
         foreach($request->contents as $key => $value) {
             
